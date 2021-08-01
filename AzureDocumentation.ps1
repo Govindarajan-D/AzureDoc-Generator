@@ -51,12 +51,42 @@ $header = @"
 
     $Document = ConvertTo-Html -Body $HTMLObj -Head $header -Title "Azure Documentation" -PostContent "<p> Created Date: $(Get-Date)</p>"
 
-    $Document | Out-File file.html
+    $Document | Out-File AzureDocumentation.html
 
     $UserPath = "C:\Users\",$env:UserName,"\AppData\Local\PackageManagement\NuGet\Packages\DocumentFormat.OpenXml.2.13.0\lib\net46" -join ""
 
     if(Check-DocModule -eq 1){
-        $new = [DocumentFormat.OpenXml.Packaging.WordprocessingDocument]::Create("D:\Doc.docx",[DocumentFormat.OpenXml.WordprocessingDocumentType]::Document)
+        $FilePath = (Get-Location).ToString()
+
+        $DocumentPath = ($FilePath,"\AzureDocumentation.docx" -join "").ToString()
+
+        $NewDocument = [DocumentFormat.OpenXml.Packaging.WordprocessingDocument]::Create($DocumentPath,[DocumentFormat.OpenXml.WordprocessingDocumentType]::Document)
+
+        $NewDocument.AddMainDocumentPart()
+
+        $MainDocumentPart = $NewDocument.MainDocumentPart
+
+        $NewDocument.MainDocumentPart.Document = New-Object DocumentFormat.OpenXml.Wordprocessing.Document
+
+        $NewDocument.MainDocumentPart.Document.Body = New-Object DocumentFormat.OpenXml.Wordprocessing.Body
+
+        $AltChunkID = "AltChunkId1";
+        
+        $Chunk = $MainDocumentPart.AddAlternativeFormatImportPart([DocumentFormat.OpenXml.Packaging.AlternativeFormatImportPartType]::Xhtml, $AltChunkID)
+
+        $AltChunk = New-Object DocumentFormat.OpenXml.Wordprocessing.AltChunk
+
+        $HTMLPath = (Get-Location).ToString()
+        
+        $FileStream = [System.IO.File]::Open(($HTMLPath,"\AzureDocumentation.html" -join "").ToString(),[System.IO.FileMode]::Open)
+
+        $Chunk.FeedData($FileStream)
+
+        $AltChunk.Id = $AltChunkID
+    
+        $MainDocumentPart.Document.Body.Append($AltChunk)
+    
+        $MainDocumentPart.Document.Save()
     }
 }
 
