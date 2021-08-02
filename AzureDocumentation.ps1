@@ -25,6 +25,10 @@ function Create-Documentation{
         $AzureResources = Get-AzResource -ResourceGroupName $ResourceGroup
         Start-Documentation -AzureResources $AzureResources
     }
+    else{
+        $AzureResources = Get-AzResource
+        Start-Documentation -AzureResources $AzureResources
+    }
 }
 #Start-Documentation starts the documentation process. It first converts the Powershell output to HTML first and then to DOCX
 function Start-Documentation{
