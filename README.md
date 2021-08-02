@@ -3,7 +3,7 @@
 
 ## Features
 
-The program is work in progress and can generate HTML file at the moment. DOCX is in progress
+The program is work in progress. It generates DOCX file but needs more formatting
 
 ## Usage
 You need to install DocumentFormat.OpenXML before using this program. 
