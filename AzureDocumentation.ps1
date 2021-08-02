@@ -1,4 +1,5 @@
-﻿function Check-DocModule{
+﻿#Check-DocModule checks for installation of DocumentFormat.OpenXML
+function Check-DocModule{
     if(Test-Path "C:\Program Files\PackageManagement\NuGet\Packages\Open-XML-SDK.2.9.1\lib\net46\DocumentFormat.OpenXml.dll"){
          [Reflection.Assembly]::LoadFile("C:\Program Files\PackageManagement\NuGet\Packages\Open-XML-SDK.2.9.1\lib\net46\DocumentFormat.OpenXml.dll")
          return 1
@@ -13,7 +14,7 @@
 
     }
 }
-
+#Create-Documentation checks for resource group name for filtering
 function Create-Documentation{
     param(
         [ValidateNotNullOrEmpty()]
@@ -25,7 +26,7 @@ function Create-Documentation{
         Start-Documentation -AzureResources $AzureResources
     }
 }
-
+#Start-Documentation starts the documentation process. It first converts the Powershell output to HTML first and then to DOCX
 function Start-Documentation{
     param(
         $AzureResources
@@ -54,6 +55,9 @@ $header = @"
     $Document | Out-File AzureDocumentation.html
 
     $UserPath = "C:\Users\",$env:UserName,"\AppData\Local\PackageManagement\NuGet\Packages\DocumentFormat.OpenXml.2.13.0\lib\net46" -join ""
+
+    #HTML is converted to AltChunk and then inserted to newly created DOCX file
+    #AltChunk allows to insert formatted HTML into DOCX directly
 
     if(Check-DocModule -eq 1){
         $FilePath = (Get-Location).ToString()
@@ -87,6 +91,10 @@ $header = @"
         $MainDocumentPart.Document.Body.Append($AltChunk)
     
         $MainDocumentPart.Document.Save()
+
+        $NewDocument.Close()
+
+        $FileStream.Close()
     }
 }
 
