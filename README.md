@@ -3,7 +3,7 @@
 
 ## Features
 
-The program is work in progress and can generate HTML file at the moment.
+The program is work in progress and can generate HTML file at the moment. DOCX is in progress
 
 ## Usage
 You need to install DocumentFormat.OpenXML before using this program. 
@@ -20,7 +20,7 @@ With Admin rights:
 Install-Package DocumentFormat.OpenXML
 ```
 ### Generating Document
-Run the powershell script as follows
+Run the powershell script as follows, ResourceGroup being optional
 ```powershell
 AzureDocumentation.ps1 -ResourceGroup "ResourceGroupName"
 ```
