@@ -20,7 +20,7 @@ With Admin rights:
 Install-Package DocumentFormat.OpenXML
 ```
 ### Generating Document
-Run the powershell script as follows, ResourceGroup being optional. the first command inserts the functions from the script into the current session.
+Run the powershell script as follows, ResourceGroup being optional. The first command inserts the functions from the script into the current session.
 ```powershell
 . .\AzureDocumentation.ps1
 Create-Documentation -ResourceGroup "ResourceGroupName"
