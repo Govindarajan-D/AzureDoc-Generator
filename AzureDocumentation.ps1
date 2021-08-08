@@ -40,19 +40,7 @@ function Start-Documentation{
        $obj | ConvertTo-Html -As List -Fragment -Property Name,ResourceGroupName,ResourceType,Kind,Location,ResourceId,Tags -PreContent "<h2>$($obj.Name)</h2>"
     }
 
-$header = @"
-    <style>
-
-        h1 {
-
-            font-family: Arial, Helvetica, sans-serif;
-            color: #e68a00;
-            font-size: 28px;
-
-        } 
-    </style>
-
-”@
+$header = Get-Content Style.conf
 
     $Document = ConvertTo-Html -Body $HTMLObj -Head $header -Title "Azure Documentation" -PostContent "<p> Created Date: $(Get-Date)</p>"
 
@@ -101,6 +89,3 @@ $header = @"
         $FileStream.Close()
     }
 }
-
-$cmd, $params = $args
-& $cmd @params
