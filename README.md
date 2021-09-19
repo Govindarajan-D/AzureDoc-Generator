@@ -3,7 +3,7 @@
 
 ## Features
 
-The program is work in progress. It generates DOCX file but needs more formatting
+It generates DOCX file. To format the output, you can modify the CSS present within the style.conf file.
 
 ## Usage
 You need to install DocumentFormat.OpenXML before using this program. 
